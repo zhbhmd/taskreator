@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 @WebFluxTest(TaskController.class)
 public class TaskControllerTest {
 
+    private final Integer id = 1;
     private final String title = "Task Repo Title";
     private final String description = "Task Repo Description";
     private final String status = TaskStatus.TO_DO.code();
@@ -30,7 +31,7 @@ public class TaskControllerTest {
     @Test
     public void testSaveUser() {
 
-        Task task = new Task(null,title, description, status, time, date);
+        Task task = new Task(id,title, description, status, time, date);
 
         when(taskService.createTask(task)).thenReturn(Mono.just(task));
 
