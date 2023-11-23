@@ -1,0 +1,38 @@
+<template>
+  <div class="bg-white  p-4 border-b border-gray-300 flex">
+    <div class="w-4/5">
+      <h2 class=" font-semibold text-gray-800">
+        {{ data?.title }}
+      </h2>
+      <p class="text-gray-600 mt-2">
+        {{ data?.description }}
+      </p>
+    </div>
+    <div class="w-1/5 flex items-center justify-end">
+      <input type="checkbox" class="form-checkbox h-6 w-6 text-blue-500" @click="() => taskCompleted(data.id)">
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    data: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  mounted () {
+    // log  prop
+    console.log('Received prop:', this.data)
+  },
+
+  methods: {
+    taskCompleted (data) {
+      console.log('checked')
+      // Emit an event named 'custom-event' to the parent
+      this.$emit('checked', data)
+    }
+  }
+}
+</script>
