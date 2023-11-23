@@ -60,4 +60,18 @@ public class TaskServiceTest {
         StepVerifier
                 .create(taskFlux).expectNextCount(1).verifyComplete();
     }
+
+    @Test
+    public void testTaskDoneWhenMarkedAsDone() {
+        Task task = new Task(id,title, description, status, time, date);
+        when(taskRepository.findById(id)).thenReturn(Mono.just(task));
+        Task doneTask = new Task(id,title, description, TaskStatus.DONE.code(), time, date);
+        when(taskRepository.save(task)).thenReturn(Mono.just(doneTask));
+        Mono<Task> taskFlux = taskService.markTaskDoneById(id.toString());
+        StepVerifier
+                .create(taskFlux).consumeNextWith(t -> {
+                    assertNotNull(t.getId());
+                    assertEquals(TaskStatus.DONE.code(), t.getStatus());
+        }).verifyComplete();
+    }
 }

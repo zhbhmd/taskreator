@@ -30,7 +30,7 @@ public class TaskControllerTest {
     private TaskService taskService;
 
     @Test
-    public void testSaveUser() {
+    public void testSaveTask() {
 
         Task task = new Task(id,title, description, status, time, date);
 
@@ -57,5 +57,20 @@ public class TaskControllerTest {
                 .expectStatus()
                 .isOk()
                 .expectBody(Flux.class);
+    }
+
+    @Test
+    public void testMarkAsDone() {
+
+        Task task = new Task(id,title, description, TaskStatus.DONE.code(), time, date);
+
+        when(taskService.markTaskDoneById(id.toString())).thenReturn(Mono.just(task));
+
+        webClient
+                .post().uri("/tasks").bodyValue(task)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(Task.class);
     }
 }
