@@ -8,7 +8,7 @@ export default {
 }
 </script>
 <template>
-  <div class="w-full items-center p-4">
+  <div class="w-full items-center p-6">
       <div class="bg-white">
           <div class="flex justify-center">
               <span class="text-lg font-bold">Create Task</span>
@@ -21,6 +21,16 @@ export default {
               <div class="mb-2">
                   <label class="block mb-2">Description</label>
                   <textarea  type="text" v-model="task.description" class="form-textarea border border-gray-300 px-4 py-3 block w-full h-32"></textarea>
+              </div>
+              <div class="flex row justify-between mb-2">
+                  <div class="w-1/2 mr-4">
+                      <label class="block mb-2">Date</label>
+                      <input type="date" class="form-input border border-gray-300 px-4 py-3 block w-full ">
+                  </div>
+                  <div class="w-1/2">
+                      <label class="block mb-2">Time</label>
+                      <input type="time" class="form-input border border-gray-300 px-4 py-3 block w-full">
+                  </div>
               </div>
 
           </div>

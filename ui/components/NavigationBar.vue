@@ -8,7 +8,7 @@
         </div>
         <div class="flex justify-between items-center">
           <NuxtLink class="mr-8" to="/">
-            Listing
+            Tasks
           </NuxtLink>
           <NuxtLink class="mr-8" to="/create">
             Create
