@@ -1,4 +1,4 @@
-package com.zhbhmd.avow;
+package com.zhbhmd.avow.task;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
