@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white  p-4 border-b border-gray-300 flex">
+  <div class="bg-white p-4 border-b border-gray-300 flex" :class="{ 'bg-green-300': data?.status === 'DONE' }">
     <div class="w-4/5">
       <h2 class=" font-semibold text-gray-800">
         {{ data?.title }}
@@ -9,7 +9,7 @@
       </p>
     </div>
     <div class="w-1/5 flex items-center justify-end">
-      <input type="checkbox" class="form-checkbox h-6 w-6 text-blue-500" @click="() => taskCompleted(data.id)">
+      <input type="checkbox" :disabled="data?.status === 'DONE'" :checked="data?.status === 'DONE'" class="form-checkbox h-6 w-6 text-blue-500" @click="() => taskCompleted(data.id)">
     </div>
   </div>
 </template>

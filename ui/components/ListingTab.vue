@@ -16,7 +16,7 @@
     <!-- Tab content -->
     <div class="p-4">
       <!-- Use named slots for each tab content -->
-      <slot :tab="activeTab" ></slot>
+      <slot :tab="activeTab" />
     </div>
   </div>
 </template>
