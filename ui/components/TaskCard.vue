@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-4 border-b border-gray-300 flex" :class="{ 'bg-green-300': data?.status === 'DONE' }">
+  <div class="bg-white p-4 border-b border-gray-300 flex" :class="{ 'bg-green-100': data?.status === 'DONE' }">
     <div class="w-4/5">
       <h2 class=" font-semibold text-gray-800">
         {{ data?.title }}
