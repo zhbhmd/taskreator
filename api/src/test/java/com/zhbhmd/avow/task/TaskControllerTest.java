@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
@@ -41,5 +42,20 @@ public class TaskControllerTest {
                 .expectStatus()
                 .isOk()
                 .expectBody(Task.class);
+    }
+
+    @Test
+    public void testGetAll() {
+
+        Task task = new Task(id,title, description, status, time, date);
+
+        when(taskService.createTask(task)).thenReturn(Mono.just(task));
+
+        webClient
+                .get().uri("/tasks")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(Flux.class);
     }
 }
