@@ -1,24 +1,27 @@
 package com.zhbhmd.avow.task;
 
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class TaskRepositoryTest {
+public class TaskServiceTest {
 
-    @Autowired
+    @InjectMocks
+    private TaskService taskService;
+
+    @Mock
     private TaskRepository taskRepository;
 
     private final String title = "Task Repo Title";
@@ -28,29 +31,24 @@ public class TaskRepositoryTest {
     private final LocalDate date = LocalDate.now();
 
     @Test
-    public void testTaskRepositoryExisted() {
-        assertNotNull(taskRepository);
-    }
+    public void testCreateTask() {
+        // When
 
-    @Test
-    public void testInsertAndQueryAll() {
         Task task = new Task(null,title, description, status, time, date);
-
-        this.taskRepository.save(task)
-                .then().block(Duration.ofSeconds(5));
-
-        this.taskRepository.findAll()
-                .take(1)
-                .as(StepVerifier::create)
-                .consumeNextWith(t -> {
+        when(taskRepository.save(task)).thenReturn(Mono.just(task));
+        Mono<Task> taskMono = taskService.createTask(task);
+        StepVerifier
+                .create(taskMono)
+                .consumeNextWith(t ->{
                     assertNotNull(t.getId());
                     assertEquals(title, t.getTitle());
                     assertEquals(description, t.getDescription());
                     assertEquals(status, t.getStatus());
                     assertEquals(time.truncatedTo(ChronoUnit.MINUTES), t.getTime().truncatedTo(ChronoUnit.MINUTES));
                     assertEquals(date, t.getDate());
-                })
-                .verifyComplete();
+                        }
 
+                )
+                .verifyComplete();
     }
 }
