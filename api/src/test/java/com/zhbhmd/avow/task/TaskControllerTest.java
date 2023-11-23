@@ -1,6 +1,9 @@
 package com.zhbhmd.avow.task;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -11,9 +14,12 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @WebFluxTest(TaskController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TaskControllerTest {
 
     private final Integer id = 1;
@@ -30,6 +36,7 @@ public class TaskControllerTest {
     private TaskService taskService;
 
     @Test
+    @Order(1)
     public void testSaveTask() {
 
         Task task = new Task(id,title, description, status, time, date);
@@ -41,10 +48,15 @@ public class TaskControllerTest {
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBody(Task.class);
+                .expectBody(Task.class)
+                .consumeWith(t -> {
+                    assertNotNull(t.getResponseBody().getId());
+                    assertEquals(title, t.getResponseBody().getTitle());
+                });
     }
 
     @Test
+    @Order(2)
     public void testGetAll() {
 
         Task task = new Task(id,title, description, status, time, date);
@@ -60,6 +72,7 @@ public class TaskControllerTest {
     }
 
     @Test
+    @Order(3)
     public void testMarkAsDone() {
 
         Task task = new Task(id,title, description, TaskStatus.DONE.code(), time, date);
@@ -67,10 +80,15 @@ public class TaskControllerTest {
         when(taskService.markTaskDoneById(id.toString())).thenReturn(Mono.just(task));
 
         webClient
-                .post().uri("/tasks").bodyValue(task)
+                .put().uri("/tasks/markDone/"+id.toString())
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBody(Task.class);
+                .expectBody(Task.class)
+                .consumeWith(t -> {
+                    assertNotNull(t.getResponseBody().getId());
+                    assertEquals(title, t.getResponseBody().getTitle());
+                    assertEquals(TaskStatus.DONE.code(), t.getResponseBody().getStatus());
+                });;
     }
 }
