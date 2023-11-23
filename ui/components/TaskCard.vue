@@ -1,9 +1,12 @@
 <template>
   <div class="bg-white p-4 border-b border-gray-300 flex" :class="{ 'bg-green-100': data?.status === 'DONE' }">
     <div class="w-4/5">
-      <h2 class=" font-semibold text-gray-800">
+      <span class=" text-xl font-semibold text-gray-800">
         {{ data?.title }}
-      </h2>
+      </span>
+      <span class="text-slate-500 ml-4 text-xs font-semibold" v-if="data?.date || data?.time ">Due on</span>
+      <span class="text-slate-500 ml-4 text-xs font-semibold">{{ data?.date }}</span>
+      <span class="text-slate-500 ml-4 text-xs font-semibold">{{ data?.time }}</span>
       <p class="text-gray-600 mt-2">
         {{ data?.description }}
       </p>
