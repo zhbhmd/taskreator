@@ -4,7 +4,7 @@
       <span class=" text-xl font-semibold text-gray-800">
         {{ data?.title }}
       </span>
-      <span class="text-slate-500 ml-4 text-xs font-semibold" v-if="data?.date || data?.time ">Due on</span>
+      <span v-if="data?.date || data?.time " class="text-slate-500 ml-4 text-xs font-semibold">Due on</span>
       <span class="text-slate-500 ml-4 text-xs font-semibold">{{ data?.date }}</span>
       <span class="text-slate-500 ml-4 text-xs font-semibold">{{ data?.time }}</span>
       <p class="text-gray-600 mt-2">

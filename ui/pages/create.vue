@@ -57,16 +57,30 @@ export default {
 
   methods: {
       handlePost() {
+        this.$store.commit('setLoading', true)
           this.$axios.post('http://localhost:8080/tasks', this.task)
               .then(response => {
+
                   console.log('API Response:', response.data);
-                  // Handle the response as needed
+                  this.$router.push('/')
+
               })
+              .then(() => new Promise(resolve => setTimeout(resolve, 1000))) //simulate network delay
               .catch(error => {
                   console.error('API Error:', error);
-                  // Handle errors
+
+              }).
+              finally(()=>{
+                this.$store.commit('setLoading', false)
               });
       },
+  },
+
+  beforeCreate () {
+    this.$store.commit('setLoading', true)
+  },
+  mounted () {
+    this.$store.commit('setLoading', false)
   }
 }
 </script>

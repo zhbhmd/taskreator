@@ -54,13 +54,13 @@ export default {
   },
   methods: {
     handleCheck (data) {
-      console.log(data)
       this.$axios.put('http://localhost:8080/tasks/markDone/' + data, {})
         .then((response) => {
           console.log('API Response:', response.data)
           // Handle the response as needed
           this.fetchData()
         })
+
         .catch((error) => {
           console.error('API Error:', error)
           // Handle errors
@@ -68,14 +68,18 @@ export default {
     },
     fetchData () {
       // Make a GET request to fetch updated data
+      this.$store.commit('setLoading', true)
       this.$axios.get('http://localhost:8080/tasks')
         .then((response) => {
           console.log('Fetched Data:', response.data)
           this.tasks = response.data
         })
+        .then(() => new Promise(resolve => setTimeout(resolve, 1000))) // simulate network delay
         .catch((error) => {
           console.error('Fetch Error:', error)
           // Handle errors
+        }).finally(() => {
+          this.$store.commit('setLoading', false)
         })
     }
   }
