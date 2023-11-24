@@ -18,7 +18,7 @@
     </div>
 
     <div class="">
-      <div v-show="activeTab === 0">
+      <div v-show="activeTab === 0" class="overflow-y-auto">
         <TaskCard v-for="item in todoTasks" :key="item.id" :data="item" @checked="handleCheck" />
       </div>
 

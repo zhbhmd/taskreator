@@ -13,7 +13,7 @@ export default {
           <div class="flex justify-center">
               <span class="text-lg font-bold">Create Task</span>
           </div>
-          <div>
+          <form>
               <div class="mb-2">
                   <label class="block mb-2">Title</label>
                   <input v-model="task.title" type="text" class="form-input border border-gray-300 px-4 py-3 block  w-full">
@@ -33,9 +33,12 @@ export default {
                   </div>
               </div>
 
-          </div>
+          </form>
           <div class="flex row justify-center mt-8">
               <button @click="handlePost" class="ml-2 bg-blue-900 text-white px-20 py-4 rounded">Add </button>
+          </div>
+          <div v-if="error !== ''">
+            <p class="text-orange-700">*{{ this.error }}</p>
           </div>
       </div>
   </div>
@@ -49,14 +52,30 @@ export default {
           task: {
               title: '',
               description: '',
-              status: 'TO_DO'
+              status: 'TO_DO',
+              time: '',
+              date:''
           },
-          loading: true
+          error: ''
       };
   },
 
   methods: {
+      validateForm(){
+        if(this.task.title ==='')
+        {
+            this.error = 'Title is required'
+            return true;
+        }
+
+        return false;
+      },
+
       handlePost() {
+
+        if(this.validateForm())
+            return;
+
         this.$store.commit('setLoading', true)
           this.$axios.post('http://localhost:8080/tasks', this.task)
               .then(response => {
