@@ -1,0 +1,17 @@
+version: '3.6'
+services:  
+  api:
+    build: ./api
+    image: zhbhmd/avow/api
+    container_name: avow-api
+    ports:
+      - 8080:8080
+
+  ui:
+    build: ./ui
+    image: zhbhmd/avow/ui
+    container_name: avow-ui
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
