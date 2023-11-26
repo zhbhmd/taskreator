@@ -79,7 +79,7 @@ export default {
         this.$store.commit('setLoading', true)
           this.$axios.post('http://localhost:8080/tasks', this.task)
               .then(response => {
-
+                  alert("Task Created")
                   console.log('API Response:', response.data);
                   this.$router.push('/')
 
