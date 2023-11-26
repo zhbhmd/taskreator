@@ -26,10 +26,15 @@ public class TaskController {
         return taskService.findAll();
     }
 
+    @GetMapping("/{taskId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Task> findById(@PathVariable String taskId) {
+        return taskService.getTaskById(taskId);
+    }
+
     @PutMapping("/markDone/{taskId}")
     public Mono<ResponseEntity<Task>> markTaskDoneById(@PathVariable String taskId){
         return taskService.markTaskDoneById(taskId)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+                .map(ResponseEntity::ok);
     }
 }

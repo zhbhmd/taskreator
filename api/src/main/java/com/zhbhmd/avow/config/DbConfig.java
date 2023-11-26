@@ -8,7 +8,7 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InitialConfig {
+public class DbConfig {
 
     @Bean
     ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory) {
