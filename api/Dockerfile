@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the files to the container
 COPY . .
 
+# for macos 
+RUN chmod +x mvnw
+
 # Build the Maven project
 RUN ./mvnw clean install
 

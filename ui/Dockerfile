@@ -12,13 +12,12 @@ COPY package*.json ./
 # install project dependencies
 RUN npm install
 
-# build app for production with minification
-RUN npm run generate
-
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
-EXPOSE 3000
+# build app for production with minification
+RUN npm run generate
 
+EXPOSE 3000
 
 CMD [ "npm", "run", "start"]
