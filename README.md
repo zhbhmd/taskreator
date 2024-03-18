@@ -16,9 +16,9 @@ Following instruction will help to run the project on docker
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/zhbhmd/avow-task.git
+git clone https://github.com/zhbhmd/taskreator.git
 
-cd avow-task
+cd taskreator
 
 docker-compose up --build
 ```
